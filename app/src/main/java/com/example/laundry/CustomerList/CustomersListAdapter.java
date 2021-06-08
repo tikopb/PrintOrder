@@ -1,15 +1,19 @@
 package com.example.laundry.CustomerList;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.laundry.CustomersList;
+import com.example.laundry.FormOrder;
 import com.example.laundry.R;
 
 import java.util.ArrayList;
@@ -28,6 +32,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView Nama, no_hp, alamat, jk;
+        private Button orderInputButton;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +41,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
             no_hp = itemView.findViewById(R.id.no_hp);
             alamat = itemView.findViewById(R.id.alamat);
             jk = itemView.findViewById(R.id.jk);
+            orderInputButton = itemView.findViewById(R.id.orderInput);
         }
     }
 
@@ -56,7 +62,18 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
         holder.alamat.setText(item.getAlamat());
         holder.no_hp.setText(item.getNo_hp());
         holder.jk.setText(item.getJk());
+        holder.orderInputButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = item.getId(); //manggil id yg akan dibawa
+                Bundle bundle = new Bundle();
+                bundle.putString("id",id); // bawa data
 
+                Intent intent = new Intent(holder.itemView.getContext(), FormOrder.class);
+                intent.putExtras(bundle);
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
        // https://www.wildantechnoart.net/2018/01/cara-menampilkan-data-sqlite-pada-recyclerview.html
 
     }
